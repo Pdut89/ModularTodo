@@ -58,12 +58,7 @@ var todos = (function(){
     $unwanted.remove();
   }
 
-  function hello(){
-    console.log("hi")
-  }
-
   return {
-    hello: hello,
     addTodo: addTodo
   }
 

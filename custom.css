@@ -1,0 +1,42 @@
+.container{
+  display: flex;
+  justify-content: center;
+}
+
+.jumbotron{
+  background-color: #adb3bc;
+  color: white;
+}
+
+.card{
+  margin-top: 50px;
+  padding: 10px;
+}
+
+.card-img-top{
+  width: 150px;
+  height: auto;
+  margin: 20px auto;
+}
+
+.card-text{
+  padding-bottom: 20px;
+}
+
+.input-body{
+  display: flex;
+}
+
+.form-control{
+  margin-right: 10px !important;
+}
+
+.delete{
+
+}
+
+.list-item{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

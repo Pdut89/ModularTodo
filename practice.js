@@ -13,7 +13,6 @@ $(document).ready(function(){
     var $list = $('.list-group');
     var $input = $('input');
 
-    // Reusable event listeners
     // bindEvents
     $addBtn.on('click', addTodo);
     $list.delegate('.list-item .delete', 'click', deleteTodo);
@@ -24,7 +23,7 @@ $(document).ready(function(){
       todos.forEach(insertItem);
     }
 
-    // Reusable - inserts todo
+    // Reusable - inserts todo items
     function insertItem(e){
       if (e) {
         $list.append(itemStructure(e));
@@ -58,6 +57,7 @@ $(document).ready(function(){
       todos.splice(i, 1);
       $unwanted.remove();
     }
+
   })();
 
 });

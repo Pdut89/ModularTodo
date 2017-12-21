@@ -2,71 +2,62 @@ console.log("hello from practice.js");
 
 $(document).ready(function(){
 
-  var todos = {
-    todos: ['clean', 'cook'],
+  var todos = (function(){
 
-    // Initialises the functional element
-    init: function(){
-      this.cacheDom();
-      this.bindEvents();
-      this.buildList();
-    },
+    var todos = ['clean', 'cook'];
 
     // Keeps cache of dom elements
-    cacheDom: function(){
-      this.$deleteBtn = $('.btn-danger');
-      this.$addBtn = $('.add-item');
-      this.$list = $('.list-group');
-      this.$input = $('input');
-    },
+    // cacheDom
+    var $deleteBtn = $('.btn-danger');
+    var $addBtn = $('.add-item');
+    var $list = $('.list-group');
+    var $input = $('input');
 
     // Reusable event listeners
-    bindEvents: function(){
-      this.$addBtn.on('click', this.addTodo.bind(this));
-      this.$list.delegate('.list-item .delete', 'click', this.deleteTodo.bind(this));
-    },
+    // bindEvents
+    $addBtn.on('click', addTodo);
+    $list.delegate('.list-item .delete', 'click', deleteTodo);
 
+    _buildList();
     // Render the initial list of items
-    buildList: function(){
-      this.todos.forEach(this.insertItem.bind(this));
-    },
+    function _buildList(){
+      todos.forEach(insertItem);
+    }
 
     // Reusable - inserts todo
-    insertItem: function(e){
+    function insertItem(e){
       if (e) {
-        this.$list.append(this.itemStructure(e));
+        $list.append(itemStructure(e));
       }
-    },
+    }
 
     // Reusable html snippet
-    itemStructure: function(e){
+    function itemStructure(e){
       return (
         '<div class="list-item">' +
           '<li class="list-group-item">' + e + '</li>' +
           '<button type="button"class="delete btn btn-danger">X</button>' +
         '</div>')
-    },
+    }
 
     // Adds input value to todos array & todo array
-    addTodo: function(){
-      item = this.$input.val();
+    function addTodo(){
+      item = $input.val();
       if (item) {
-        this.todos.push(item);
-        this.insertItem(item);
+        todos.push(item);
+        insertItem(item);
       }
-      this.$input.val('');
-    },
+      $input.val('');
+    }
 
     // Removes specific item from html & todos array
-    deleteTodo: function(){
+    function deleteTodo(){
       $unwanted = $(event.target).parent('.list-item');
-      var i = this.$list.find('.list-item').index($unwanted);
+      var i = $list.find('.list-item').index($unwanted);
 
-      this.todos.splice(i, 1);
+      todos.splice(i, 1);
       $unwanted.remove();
     }
-  }
-
-  todos.init();
+  })();
 
 });

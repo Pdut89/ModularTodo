@@ -1,11 +1,38 @@
 console.log("hello from practice.js");
 
 
-// === ADDS AND REMOVES TODOS ===
+//Template SUBPUB. Source: https://gist.github.com/learncodeacademy/777349747d8382bfb722
+var events = {
+events: {},
+on: function (eventName, fn) {
+  this.events[eventName] = this.events[eventName] || [];
+  this.events[eventName].push(fn);
+},
+off: function(eventName, fn) {
+  if (this.events[eventName]) {
+    for (var i = 0; i < this.events[eventName].length; i++) {
+      if (this.events[eventName][i] === fn) {
+        this.events[eventName].splice(i, 1);
+        break;
+      }
+    };
+  }
+},
+emit: function (eventName, data) {
+  if (this.events[eventName]) {
+    this.events[eventName].forEach(function(fn) {
+      fn(data);
+    });
+  }
+}
+};
+
+
+// === MODULE 1 ===
+// = ADDS AND REMOVES TODOS =
 
 var todos = (function(){
-
-  var todos = ['clean', 'cook'];
+  var todos = [];
 
   // Keeps cache of dom elements
   // cache DOM
@@ -45,7 +72,8 @@ var todos = (function(){
     var item = (typeof value === "string") ? value : $input.val();
     if (item) {
       todos.push(item);
-      stats.setTodoCount()
+      //Publish changes to todo list
+      events.emit('todosChanged', todos.length)
       insertItem(item);
     }
     $input.val('');
@@ -55,25 +83,22 @@ var todos = (function(){
   function deleteTodo(){
     $unwanted = $(event.target).parent('.list-item');
     var i = $list.find('.list-item').index($unwanted);
+    $unwanted.remove();
 
     todos.splice(i, 1);
-    stats.setTodoCount()
-    $unwanted.remove();
+    //Publish changes to todo list
+    events.emit('todosChanged', todos.length)
   }
 
-  function todoLength(){
-    return todos.length;
-  }
-
+  // Public method
   return {
     addTodo: addTodo,
-    todoLength: todoLength
   }
 
 })();
 
 
-
+// === MODULE 2 ===
 // === UPDATES THE TODO COUNT ===
 
 var stats = (function(){
@@ -82,16 +107,12 @@ var stats = (function(){
   // cache DOM
   $count = $('.count');
 
-  setTodoCount();
+  //Subscribe to event
+  events.on('todosChanged', setTodoCount);
 
-  function setTodoCount(){
-    todoCount = todos.todoLength;
-    $count.html(todoCount)
+  // Public method for updating count
+  function setTodoCount(e){
+    $count.html(e)
   }
-
-  return {
-    setTodoCount: setTodoCount
-  }
-
 
 })();

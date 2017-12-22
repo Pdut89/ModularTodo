@@ -1,13 +1,14 @@
 console.log("hello from practice.js");
 
 
+// === ADDS AND REMOVES TODOS ===
 
 var todos = (function(){
 
   var todos = ['clean', 'cook'];
 
   // Keeps cache of dom elements
-  // cache dom
+  // cache DOM
   var $deleteBtn = $('.btn-danger');
   var $addBtn = $('.add-item');
   var $list = $('.list-group');
@@ -44,6 +45,7 @@ var todos = (function(){
     var item = (typeof value === "string") ? value : $input.val();
     if (item) {
       todos.push(item);
+      stats.setTodoCount()
       insertItem(item);
     }
     $input.val('');
@@ -55,11 +57,41 @@ var todos = (function(){
     var i = $list.find('.list-item').index($unwanted);
 
     todos.splice(i, 1);
+    stats.setTodoCount()
     $unwanted.remove();
   }
 
-  return {
-    addTodo: addTodo
+  function todoLength(){
+    return todos.length;
   }
+
+  return {
+    addTodo: addTodo,
+    todoLength: todoLength
+  }
+
+})();
+
+
+
+// === UPDATES THE TODO COUNT ===
+
+var stats = (function(){
+  var todoCount = 0
+
+  // cache DOM
+  $count = $('.count');
+
+  setTodoCount();
+
+  function setTodoCount(){
+    todoCount = todos.todoLength;
+    $count.html(todoCount)
+  }
+
+  return {
+    setTodoCount: setTodoCount
+  }
+
 
 })();

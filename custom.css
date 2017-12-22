@@ -38,3 +38,15 @@
   justify-content: space-between;
   align-items: center;
 }
+
+.todo_count{
+  color: grey;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.todo_count h6{
+  margin: 0 10px 0 0;
+  padding: 0;
+};
